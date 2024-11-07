@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encuesta de Programación</title>
+    <script src="./js/vue3.js"></script>
+    <link rel="stylesheet" href="./css/estilos.css">
+</head>
+<body>
+    <section id="surveyApp">
+        <!-- Encabezado principal -->
+        <header class="header">
+            <h1>Encuesta de Programación</h1>
+            <p>Responde las siguientes preguntas para ayudarnos a conocer más sobre tu experiencia con la programación.</p>
+        </header>
+
+        <!-- Formulario de encuesta -->
+        <section class="form-section">
+            <form @submit.prevent="displayResults">
+                <div class="question">
+                    <label>¿Te gusta programar?</label>
+                    <input type="radio" name="programmingInterest" v-model="programmingInterest" value="Sí" required> Sí
+                    <input type="radio" name="programmingInterest" v-model="programmingInterest" value="No"> No
+                </div>
+
+                <div class="question">
+                    <label>¿Cuántos años llevas programando?</label>
+                    <input type="number" v-model="yearsProgramming" min="0" required>
+                </div>
+
+                <div class="question" v-if="programmingInterest === 'Sí'">
+                    <label>¿Por qué te gusta programar?</label>
+                    <textarea v-model="reasonForProgramming"></textarea>
+                </div>
+
+                <div class="question">
+                    <label>¿Cuántos lenguajes de programación conoces?</label>
+                    <input type="text" v-model="currentLanguage" placeholder="Escribe un lenguaje">
+                    <button @click.prevent="addLanguage" type="button">Agregar</button>
+                    <ul>
+                        <li v-for="language in languagesList" :key="language">{{ language }}</li>
+                    </ul>
+                </div>
+
+                <button type="submit">Mostrar resultados</button>
+            </form>
+        </section>
+
+        <!-- Resultados -->
+        <section v-if="showResults" class="results-section">
+            <header>
+                <h2>Resultados</h2>
+            </header>
+            <p><strong>¿Te gusta programar?:</strong> {{ programmingInterest }}</p>
+            <p><strong>Años programando:</strong> {{ yearsProgramming }}</p>
+            <p><strong>Motivo:</strong> {{ reasonForProgramming }}</p>
+            <p><strong>Lenguajes conocidos:</strong></p>
+            <ul>
+                <li v-for="language in languagesList" :key="language">{{ language }}</li>
+            </ul>
+        </section>
+    </section>
+
+    <script src="./js/script.js"></script>
+</body>
+</html>
